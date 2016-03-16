@@ -34,6 +34,9 @@ namespace BookShoppingCart
                 case 3:
                     totalPrice = Convert.ToInt32(totalPrice * 0.9);
                     break;
+                case 4:
+                    totalPrice = Convert.ToInt32(totalPrice * 0.8);
+                    break;
                 default:
                     break;
             }
