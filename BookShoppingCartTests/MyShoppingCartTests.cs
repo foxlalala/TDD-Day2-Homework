@@ -115,7 +115,8 @@ namespace BookShoppingCart.Tests
             {
                 new Book { Name = "HarryPotter1", Price = 100 },
                 new Book { Name = "HarryPotter2", Price = 100 },
-                new Book { Name = "HarryPotter3", Price = 200 },
+                new Book { Name = "HarryPotter3", Price = 100 },
+                new Book { Name = "HarryPotter3", Price = 100 },
             };
 
             //act
