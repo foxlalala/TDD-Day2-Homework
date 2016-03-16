@@ -11,9 +11,15 @@ namespace BookShoppingCart
 
         }
 
-        public int CheckOut(List<Book> myBook)
-        {            
-            return 0;
+        public int CheckOut(List<Book> myBookList)
+        {
+            var totalPrice = 0;
+            foreach (var Book in myBookList)
+            {
+                totalPrice += Book.Price;
+            }
+
+            return totalPrice;
         }
     }
 
