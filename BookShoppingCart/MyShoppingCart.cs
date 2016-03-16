@@ -25,10 +25,19 @@ namespace BookShoppingCart
 
                 bookType.Add(Book.Name);
             }
-            
-            if (bookType.Count == 2)
-                totalPrice = Convert.ToInt32(totalPrice * 0.95);
 
+            switch (bookType.Count)
+            {
+                case 2:
+                    totalPrice = Convert.ToInt32(totalPrice * 0.95);
+                    break;
+                case 3:
+                    totalPrice = Convert.ToInt32(totalPrice * 0.9);
+                    break;
+                default:
+                    break;
+            }
+            
             return totalPrice;
         }
     }
