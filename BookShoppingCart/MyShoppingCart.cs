@@ -16,11 +16,13 @@ namespace BookShoppingCart
             var priceDiscount = 0;
             var bookDiscount = new List<string>();
             var priceNoDiscount = 0;
+            var bookNoDiscount = new List<string>();
 
             foreach (var Book in myBookList)
             {
                 if (bookDiscount.Contains(Book.Name))
                 {
+                    bookNoDiscount.Add(Book.Name);
                     priceNoDiscount += Book.Price;
                 }
                 else
@@ -43,6 +45,24 @@ namespace BookShoppingCart
                     break;
                 case 5:
                     priceDiscount = Convert.ToInt32(priceDiscount * 0.75);
+                    break;
+                default:
+                    break;
+            }
+
+            switch (bookNoDiscount.Count)
+            {
+                case 2:
+                    priceNoDiscount = Convert.ToInt32(priceNoDiscount * 0.95);
+                    break;
+                case 3:
+                    priceNoDiscount = Convert.ToInt32(priceNoDiscount * 0.9);
+                    break;
+                case 4:
+                    priceNoDiscount = Convert.ToInt32(priceNoDiscount * 0.8);
+                    break;
+                case 5:
+                    priceNoDiscount = Convert.ToInt32(priceNoDiscount * 0.75);
                     break;
                 default:
                     break;
