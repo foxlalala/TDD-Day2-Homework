@@ -126,5 +126,26 @@ namespace BookShoppingCart.Tests
             var expected = 370;
             Assert.AreEqual(expected, actual);
         }
+
+        [TestMethod()]
+        public void 第一集買了一本_第二三集各買了兩本()
+        {
+            //arrange
+            var target = new List<Book>()
+            {
+                new Book { Name = "HarryPotter1", Price = 100 },
+                new Book { Name = "HarryPotter2", Price = 100 },
+                new Book { Name = "HarryPotter2", Price = 100 },
+                new Book { Name = "HarryPotter3", Price = 100 },
+                new Book { Name = "HarryPotter3", Price = 100 },
+            };
+
+            //act
+            var actual = new MyShoppingCart().CheckOut(target);
+
+            //assert
+            var expected = 460;
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
