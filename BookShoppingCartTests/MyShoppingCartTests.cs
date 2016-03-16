@@ -21,22 +21,11 @@ namespace BookShoppingCart.Tests
             };
 
             //act
-            var actual = CheckOut(target);
+            var actual = new MyShoppingCart().CheckOut(target);
 
             //assert
             var expected = 100;
             Assert.AreEqual(expected, actual);
-        }
-
-        public class Book
-        {
-            public string Name { get; set; }
-            public int Price { get; set; }
-        }
-
-        public int CheckOut(List<Book> bk)
-        {
-            return 0;
         }
     }
 }

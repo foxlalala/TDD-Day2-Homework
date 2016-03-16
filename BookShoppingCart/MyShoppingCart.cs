@@ -10,5 +10,16 @@ namespace BookShoppingCart
         {
 
         }
+
+        public int CheckOut(List<Book> myBook)
+        {            
+            return 0;
+        }
+    }
+
+    public class Book
+    {
+        public string Name { get; set; }
+        public int Price { get; set; }
     }
 }
