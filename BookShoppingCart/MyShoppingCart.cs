@@ -13,38 +13,42 @@ namespace BookShoppingCart
 
         public int CheckOut(List<Book> myBookList)
         {
-            var totalPrice = 0;
-            var bookType = new List<string>();
+            var priceDiscount = 0;
+            var bookDiscount = new List<string>();
+            var priceNoDiscount = 0;
 
             foreach (var Book in myBookList)
             {
-                totalPrice += Book.Price;
-
-                if (bookType.Contains(Book.Name))
-                    continue;
-
-                bookType.Add(Book.Name);
+                if (bookDiscount.Contains(Book.Name))
+                {
+                    priceNoDiscount += Book.Price;
+                }
+                else
+                {
+                    bookDiscount.Add(Book.Name);
+                    priceDiscount += Book.Price;
+                }
             }
 
-            switch (bookType.Count)
+            switch (bookDiscount.Count)
             {
                 case 2:
-                    totalPrice = Convert.ToInt32(totalPrice * 0.95);
+                    priceDiscount = Convert.ToInt32(priceDiscount * 0.95);
                     break;
                 case 3:
-                    totalPrice = Convert.ToInt32(totalPrice * 0.9);
+                    priceDiscount = Convert.ToInt32(priceDiscount * 0.9);
                     break;
                 case 4:
-                    totalPrice = Convert.ToInt32(totalPrice * 0.8);
+                    priceDiscount = Convert.ToInt32(priceDiscount * 0.8);
                     break;
                 case 5:
-                    totalPrice = Convert.ToInt32(totalPrice * 0.75);
+                    priceDiscount = Convert.ToInt32(priceDiscount * 0.75);
                     break;
                 default:
                     break;
             }
-            
-            return totalPrice;
+
+            return priceDiscount + priceNoDiscount;
         }
     }
 
