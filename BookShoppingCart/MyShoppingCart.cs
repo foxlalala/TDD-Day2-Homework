@@ -12,30 +12,41 @@ namespace BookShoppingCart
 
         }
 
-        public int CheckOut(IEnumerable<Book> myBookList)
+        public int CheckOut(List<Book> myBookList)
         {
-            //可以打折的書
-            var bookDiscount = new List<Book>();
-
-            //原先是放不能打折的書 (跑到第7個紅燈，發現邏輯問題，這群組還是有可能折扣)
-            var bookNoDiscount = new List<Book>();
+            //建立不重複書本群組
+            var totalGroup = new List<List<Book>>();
 
             foreach (var myBook in myBookList)
             {
-                if (!bookDiscount.Where(x => x.Name == myBook.Name).Any())
+                bool existsInGroup = false;
+                foreach (List<Book> bookGp in totalGroup)
                 {
-                    bookDiscount.Add(myBook);
+                    //如果存在當前群組, 換下一個群組
+                    if (bookGp.Where(x => x.Name == myBook.Name).Any())
+                        continue;
+
+                    bookGp.Add(myBook);                    
+                    existsInGroup = true;
+                    break;
                 }
-                else
-                {
-                    bookNoDiscount.Add(myBook);
-                }
+
+                if (existsInGroup)
+                    continue;
+
+                //不在任何群組=>建立新的
+                var newGroup = new List<Book>();
+                newGroup.Add(myBook);
+                totalGroup.Add(newGroup);
             }
 
-            var priceDiscount = CalculateDiscountByBookGroup(bookDiscount);
-            var priceNoDiscount = CalculateDiscountByBookGroup(bookNoDiscount);
+            var totalPrice = 0;
+            foreach (List<Book> bookGp in totalGroup)
+            {
+                totalPrice += CalculateDiscountByBookGroup(bookGp);
+            }
 
-            return priceDiscount + priceNoDiscount;
+            return totalPrice;
         }
 
         /// <summary>
