@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace BookShoppingCart
 {
@@ -11,33 +12,28 @@ namespace BookShoppingCart
 
         }
 
-        public int CheckOut(List<Book> myBookList)
+        public int CheckOut(IEnumerable<Book> myBookList)
         {
             //可以打折的書
-            var priceDiscount = 0;
-            var bookDiscount = new List<string>();
+            var bookDiscount = new List<Book>();
 
             //原先是放不能打折的書 (跑到第7個紅燈，發現邏輯問題，這群組還是有可能折扣)
-            var priceNoDiscount = 0;
-            var bookNoDiscount = new List<string>();
+            var bookNoDiscount = new List<Book>();
 
-            foreach (var Book in myBookList)
+            foreach (var myBook in myBookList)
             {
-                if (bookDiscount.Contains(Book.Name))
+                if (!bookDiscount.Where(x => x.Name == myBook.Name).Any())
                 {
-                    bookNoDiscount.Add(Book.Name);
-                    priceNoDiscount += Book.Price;
+                    bookDiscount.Add(myBook);
                 }
                 else
                 {
-                    bookDiscount.Add(Book.Name);
-                    priceDiscount += Book.Price;
+                    bookNoDiscount.Add(myBook);
                 }
             }
 
-            priceDiscount = CalculateDiscount(bookDiscount.Count, priceDiscount);
-
-            priceNoDiscount = CalculateDiscount(bookNoDiscount.Count, priceNoDiscount);
+            var priceDiscount = CalculateDiscountByBookGroup(bookDiscount);
+            var priceNoDiscount = CalculateDiscountByBookGroup(bookNoDiscount);
 
             return priceDiscount + priceNoDiscount;
         }
@@ -48,12 +44,15 @@ namespace BookShoppingCart
         /// <param name="noRepeatBookNum">書本總數(不重複)</param>
         /// <param name="totalPrice">原價</param>
         /// <returns>打折後價格</returns>
-        private int CalculateDiscount(int noRepeatBookNum, int totalPrice)
+        private int CalculateDiscountByBookGroup(IEnumerable<Book> bookGroup)
         {
             //原始折扣 : 不打折
             var disCountPercent = 1.00;
+            var origialPrice = 0;
 
-            switch (noRepeatBookNum)
+            origialPrice = bookGroup.Sum(x => x.Price);
+
+            switch (bookGroup.Count())
             {
                 case 2:
                     disCountPercent = 0.95;
@@ -71,7 +70,7 @@ namespace BookShoppingCart
                     break;
             }
 
-            return Convert.ToInt32(totalPrice * disCountPercent);
+            return Convert.ToInt32(origialPrice * disCountPercent);
         }
     }
 
